@@ -1,0 +1,79 @@
+@startuml
+
+hide footbox
+
+title メインシーケンス
+
+
+participant "main" as FuncMain
+participant "StateManager" as ClassStateManager
+participant "TimingManager" as ClassTimingManager
+participant "Timer(Hardware)" as HardwareTimer
+participant "TemperatureControler" as ClassTemperatureControler
+participant "TemperatureGetter" as ClassTemperatureGetter
+
+activate FuncMain
+
+FuncMain -> ClassStateManager : 温度管理開始
+  activate ClassStateManager
+
+== タイミング管理開始 ==
+ClassStateManager -> ClassTimingManager : タイミング管理開始
+  activate ClassTimingManager
+ClassStateManager <-- ClassTimingManager
+  deactivate ClassTimingManager
+
+FuncMain <-- ClassStateManager
+  deactivate ClassStateManager
+
+== タイミング割り込み ==
+ClassTimingManager <<- HardwareTimer : タイマ割り込み
+  activate ClassTimingManager
+ClassTimingManager -> ClassTimingManager : 周期経過フラグON
+  activate ClassTimingManager
+  deactivate ClassTimingManager
+ClassTimingManager -->> HardwareTimer
+  deactivate ClassTimingManager
+
+loop
+  opt 周期経過フラグ[ON]
+  FuncMain -> ClassStateManager : 温度管理
+    activate ClassStateManager
+    == 現在温度取得 ==
+    ClassStateManager -> ClassTemperatureGetter : 温度取得
+      activate ClassTemperatureGetter
+    ClassStateManager <-- ClassTemperatureGetter : 現在温度
+      deactivate ClassTemperatureGetter
+
+    == 状態管理 ==
+    ClassStateManager -> ClassStateManager : 状態遷移
+      activate ClassStateManager
+      deactivate ClassStateManager
+
+    == 状態に応じて制御 ==
+    alt 状態[昇温]
+      ClassStateManager -> ClassTemperatureControler : 昇温
+        activate ClassTemperatureControler
+      ClassStateManager <-- ClassTemperatureControler
+        deactivate ClassTemperatureControler
+    else 状態[冷却]
+      ClassStateManager -> ClassTemperatureControler : 冷却
+        activate ClassTemperatureControler
+      ClassStateManager <-- ClassTemperatureControler
+        deactivate ClassTemperatureControler
+    else 状態[保温]
+      ClassStateManager -> ClassTemperatureControler : 保温
+        activate ClassTemperatureControler
+      ClassStateManager <-- ClassTemperatureControler
+        deactivate ClassTemperatureControler
+    end
+    ClassStateManager -> ClassTimingManager :  周期経過フラグOFF
+      activate ClassTimingManager
+    ClassStateManager <-- ClassTimingManager
+      deactivate ClassTimingManager
+
+    FuncMain <-- ClassStateManager
+      deactivate ClassStateManager
+  end
+end
+@enduml
