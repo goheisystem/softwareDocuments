@@ -1,0 +1,23 @@
+@startuml
+title 状態遷移
+
+left to right direction
+
+state "昇温中" as StateHeating
+  StateHeating : Fan OFF
+  StateHeating : Heater ON
+state "保温中" as StateKeeping
+  StateKeeping : Fan OFF
+  StateKeeping : Heater OFF
+state "冷却中" as StateCooling
+  StateCooling : Fan ON
+  StateCooling : Heater OFF
+
+
+StateKeeping --> StateHeating : 温度が下限未満
+StateHeating --> StateKeeping : 温度が上限以上
+
+StateKeeping --> StateCooling : 温度が上限以上
+StateCooling --> StateKeeping : 温度が上限未満
+
+@enduml

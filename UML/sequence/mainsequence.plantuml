@@ -46,6 +46,8 @@ loop
       deactivate ClassTemperatureGetter
 
     == 状態管理 ==
+    ref over ClassStateManager : 温度に応じて状態算出
+
     ClassStateManager -> ClassStateManager : 状態遷移
       activate ClassStateManager
       deactivate ClassStateManager
