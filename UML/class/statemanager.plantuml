@@ -5,6 +5,7 @@ class "StateManager" as ClassStateManager{
   -currentState : SystemStatus
   +startManaging() : void
   +manageRoutine() : void
+  +stopManaging() : void
   -calcurateNextState() : SystemStatus
 }
 enum "SystemStatus" as EnumSystemStatus{
