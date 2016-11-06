@@ -1,0 +1,15 @@
+@startuml
+title 状態管理クラス
+
+class "StateManager" as ClassStateManager{
+  -currentState : SystemStatus
+  +startManaging() : void
+  +manageRoutine() : void
+  -calcurateNextState() : SystemStatus
+}
+enum "SystemStatus" as EnumSystemStatus{
+  HEATING
+  KEEPING
+  COOLING
+}
+@enduml
