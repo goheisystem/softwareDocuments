@@ -1,3 +1,28 @@
 @startuml
+title TemperatureGetter周り
 
+left to right direction
+
+class "TemperatureGetter" as ClassTemperatureGetter{
+  +getTemperature() : float_t
+  -calcurateThermistorTemperature(thermistorVoltage : float_t) : float_t
+  -{static}const B_CONSTANT = 3380 : float_t
+  -{static}const RP = 100000 : float_t
+  -{static}const R0 = 110000 : float_t
+  -{static}const ZERO_KELVIN = -273.15 : float_t
+  -{static}const VDA = 3.3 : float_t
+  -{static}const ROOM_TEMPERATURE = 25.0 : float_t
+  -{static}const THERMISTOR_PORT = p15 : PinName
+  -{static}analogIn : AnalogIn
+}
+
+package "mbed" as PackageMBED{
+  class "AnalogIn" as ClassAnalogIn{
+  }
+  enum "PinName" as EnumPinName{
+
+  }
+}
+ClassTemperatureGetter "0..*" *-- "1" ClassAnalogIn
+ClassTemperatureGetter "0..*" o-- "1" EnumPinName
 @enduml

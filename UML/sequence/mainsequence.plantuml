@@ -8,7 +8,7 @@ title メインシーケンス
 participant "main" as FuncMain
 participant "StateManager" as ClassStateManager
 participant "TimingManager" as ClassTimingManager
-participant "Timer(Hardware)" as HardwareTimer
+participant "Ticker" as ClassTicker
 participant "TemperatureControler" as ClassTemperatureControler
 participant "TemperatureGetter" as ClassTemperatureGetter
 
@@ -27,12 +27,12 @@ FuncMain <-- ClassStateManager
   deactivate ClassStateManager
 
 == タイミング割り込み ==
-ClassTimingManager <<- HardwareTimer : タイマ割り込み
+ClassTimingManager <<- ClassTicker : タイマ割り込み
   activate ClassTimingManager
 ClassTimingManager -> ClassTimingManager : 周期経過フラグON
   activate ClassTimingManager
   deactivate ClassTimingManager
-ClassTimingManager -->> HardwareTimer
+ClassTimingManager -->> ClassTicker
   deactivate ClassTimingManager
 
 loop

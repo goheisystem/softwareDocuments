@@ -1,3 +1,25 @@
 @startuml
+title TimingManager周り
 
+left to right direction
+
+class "TimingManager" as ClassTimingManager{
+  -{static}periodElaspedFlag : bool
+  -{static}ticker : Ticker
+  -{static}callBack() : void
+  -startTimer() : void
+  -stopTimer() : void
+  +isPeriodElasped() : bool
+  +clearElaspedFlag() : void
+  +startManaging() : void
+  +stopManaging() : void
+  -{static}const PERIOD_SEC = 10 : uint32_t
+}
+
+package "mbed" as PackageMBED{
+  class "Ticker" as ClassTicker{
+  }
+}
+
+ClassTimingManager "0..*" *-- "1" ClassTicker
 @enduml
