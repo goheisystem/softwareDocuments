@@ -6,7 +6,7 @@ class "StateManager" as ClassStateManager{
   +startManaging() : void
   +manageRoutine() : void
   +stopManaging() : void
-  -calcurateNextState() : SystemStatus
+  -calcurateNextState(currentTemperature : float_t) : SystemStatus
 }
 enum "SystemStatus" as EnumSystemStatus{
   HEATING
