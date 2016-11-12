@@ -1,0 +1,20 @@
+@startuml
+title TemperatureControler周り
+
+left to right direction
+
+class "TemperatureControler" as ClassTemperatureControler{
+  -{static}fan : DigitalOut
+  -{static}heater : DigitalOut
+  +coolDown() : void
+  +heatUp() : void
+  +keep() : void
+}
+
+package "mbed" as PackageMBED{
+  class "DigitalOut" as ClassDigitalOut{
+  }
+}
+
+ClassTemperatureControler "0..*" *-- "2" ClassDigitalOut
+@enduml

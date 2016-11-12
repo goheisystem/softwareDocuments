@@ -3,13 +3,11 @@ title 状態管理クラス
 
 class "StateManager" as ClassStateManager{
   -currentState : SystemStatus
-  -{static}timingManager : TimingManager
   -{static}temperatureGetter : TemperatureGetter
+  -{static}temperatureControler : TemperatureControler
   -{static}const TEMPERATURE_LOWER_LIMIT = 27 : float_t
   -{static}const TEMPERATURE_UPPER_LIMIT = 28 : float_t
-  +startManaging() : void
   +manageRoutine() : void
-  +stopManaging() : void
   -calcurateNextState(currentTemperature : float_t) : SystemStatus
 }
 enum "SystemStatus" as EnumSystemStatus{
@@ -17,4 +15,6 @@ enum "SystemStatus" as EnumSystemStatus{
   KEEPING
   COOLING
 }
+
+ClassStateManager "0..*" *-- "1" EnumSystemStatus
 @enduml

@@ -14,17 +14,13 @@ participant "TemperatureGetter" as ClassTemperatureGetter
 
 activate FuncMain
 
-FuncMain -> ClassStateManager : 温度管理開始
-  activate ClassStateManager
+== 温度管理開始 ==
 
-== タイミング管理開始 ==
-ClassStateManager -> ClassTimingManager : タイミング管理開始
+FuncMain -> ClassTimingManager : タイミング管理開始
   activate ClassTimingManager
-ClassStateManager <-- ClassTimingManager
+FuncMain <-- ClassTimingManager
   deactivate ClassTimingManager
 
-FuncMain <-- ClassStateManager
-  deactivate ClassStateManager
 
 == タイミング割り込み ==
 ClassTimingManager <<- ClassTicker : タイマ割り込み
@@ -69,13 +65,15 @@ loop
       ClassStateManager <-- ClassTemperatureControler
         deactivate ClassTemperatureControler
     end
-    ClassStateManager -> ClassTimingManager :  周期経過フラグOFF
-      activate ClassTimingManager
-    ClassStateManager <-- ClassTimingManager
-      deactivate ClassTimingManager
+
 
     FuncMain <-- ClassStateManager
       deactivate ClassStateManager
+
+    FuncMain -> ClassTimingManager :  周期経過フラグOFF
+      activate ClassTimingManager
+    FuncMain <-- ClassTimingManager
+      deactivate ClassTimingManager
   end
 end
 @enduml
