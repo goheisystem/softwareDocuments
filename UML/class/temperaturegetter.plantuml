@@ -8,7 +8,7 @@ class "TemperatureGetter" as ClassTemperatureGetter{
   -calcurateThermistorTemperature(thermistorVoltage : float_t) : float_t
   -{static}const B_CONSTANT = 3380 : float_t
   -{static}const RP = 100000 : float_t
-  -{static}const R0 = 110000 : float_t
+  -{static}const R0 = 100000 : float_t
   -{static}const ZERO_KELVIN = -273.15 : float_t
   -{static}const VDA = 3.3 : float_t
   -{static}const ROOM_TEMPERATURE = 25.0 : float_t
