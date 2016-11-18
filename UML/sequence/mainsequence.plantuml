@@ -11,6 +11,8 @@ participant "TimingManager" as ClassTimingManager
 participant "Ticker" as ClassTicker
 participant "TemperatureControler" as ClassTemperatureControler
 participant "TemperatureGetter" as ClassTemperatureGetter
+participant "SwitchMonitor" as ClassSwitchMonitor
+participant "UVRight" as ClassUVRight
 
 activate FuncMain
 
@@ -21,6 +23,11 @@ FuncMain -> ClassTimingManager : タイミング管理開始
 FuncMain <-- ClassTimingManager
   deactivate ClassTimingManager
 
+== スイッチモニタリング開始 ==
+FuncMain -> ClassUVRight : スイッチモニタリング開始
+  activate ClassUVRight
+FuncMain <-- ClassUVRight
+  deactivate ClassUVRight
 
 == タイミング割り込み ==
 ClassTimingManager <<- ClassTicker : タイマ割り込み
@@ -32,6 +39,24 @@ ClassTimingManager -->> ClassTicker
   deactivate ClassTimingManager
 
 loop
+  FuncMain -> ClassSwitchMonitor : スイッチ状態問い合わせ
+    activate ClassSwitchMonitor
+  FuncMain <-- ClassSwitchMonitor : スイッチ状態
+    deactivate ClassSwitchMonitor
+
+  alt スイッチ[ON]
+    FuncMain -> ClassUVRight : UVライトON
+      activate ClassUVRight
+    FuncMain <-- ClassUVRight
+      deactivate ClassUVRight
+  else スイッチ[OFF]
+    FuncMain -> ClassUVRight : UVライトOFF
+      activate ClassUVRight
+    FuncMain <-- ClassUVRight
+      deactivate ClassUVRight
+  end
+
+
   opt 周期経過フラグ[ON]
   FuncMain -> ClassStateManager : 温度管理
     activate ClassStateManager

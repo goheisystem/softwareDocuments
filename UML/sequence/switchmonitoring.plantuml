@@ -1,0 +1,39 @@
+@startuml
+
+title チャタリング防止機能を持ったDigitalInput
+
+hide footbox
+
+participant "DigitalInLowPass" as ClassDigitalInLowPath
+participant "Ticker" as ClassTicker
+participant "DigitalIn" as ClassDigitalIn
+
+activate ClassTicker
+
+
+== 割り込み処理 ==
+ClassTicker ->> ClassDigitalInLowPath : 周期割り込み
+  activate ClassDigitalInLowPath
+ClassDigitalInLowPath -> ClassDigitalIn : GPIO状態問い合わせ
+  activate ClassDigitalIn
+ClassDigitalInLowPath <-- ClassDigitalIn : GPIO状態
+  deactivate ClassDigitalIn
+
+alt GPIO状態[前回の測定と異なる]
+  ClassDigitalInLowPath -> ClassDigitalInLowPath : カウンタリセット
+    activate ClassDigitalInLowPath
+    deactivate ClassDigitalInLowPath
+else GPIO状態[前回の状態と同じ]
+  alt カウンタ[<閾値]
+    ClassDigitalInLowPath -> ClassDigitalInLowPath : カウンタインクリメント
+      activate ClassDigitalInLowPath
+      deactivate ClassDigitalInLowPath
+  else
+    ClassDigitalInLowPath -> ClassDigitalInLowPath : GPIO認識値のを測定結果に更新
+      activate ClassDigitalInLowPath
+      deactivate ClassDigitalInLowPath
+  end
+end
+ClassTicker <<-- ClassDigitalInLowPath
+  deactivate ClassDigitalInLowPath
+@enduml

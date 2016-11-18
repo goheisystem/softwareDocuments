@@ -1,0 +1,24 @@
+@startuml
+
+title チャタリング防止機能付きDigitalInクラス
+
+package "mbed" as PackageMBED{
+  class "DigitalIn" as ClassDigitalIn{
+
+  }
+}
+
+class "DigitalInLowPass" as ClassDigitalInLowPath {
+  -{static}ticker : Ticker
+  -digitalIn : DigitalIn
+  -gpioStatus : int
+  -counter : uint8_t
+  -prevStatus : int
+  +read() : int
+  +operator int() : int
+  +DigitalInLowPass(pinName : PinName)
+  +~DigitalInLowPass()
+}
+
+ClassDigitalInLowPath --|> ClassDigitalIn
+@enduml
