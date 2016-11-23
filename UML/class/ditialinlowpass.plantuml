@@ -9,8 +9,7 @@ package "mbed" as PackageMBED{
 }
 
 class "DigitalInLowPass" as ClassDigitalInLowPath {
-  -{static}ticker : Ticker
-  -digitalIn : DigitalIn
+  -ticker : Ticker
   -gpioStatus : int
   -counter : uint8_t
   -prevStatus : int
@@ -18,6 +17,9 @@ class "DigitalInLowPass" as ClassDigitalInLowPath {
   +operator int() : int
   +DigitalInLowPass(pinName : PinName)
   +~DigitalInLowPass()
+  -callBack() : void
+  -{static}const FILTER_COUNT_LIMIT = 3 : uint8_t
+  -{static}const TICKER_PERIOD = 0.01 : float_t
 }
 
 ClassDigitalInLowPath --|> ClassDigitalIn
