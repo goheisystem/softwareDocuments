@@ -38,6 +38,8 @@ ClassTimingManager -> ClassTimingManager : 周期経過フラグON
 ClassTimingManager -->> ClassTicker
   deactivate ClassTimingManager
 
+== 無限ループ ==
+
 loop
   FuncMain -> ClassSwitchMonitor : スイッチ状態問い合わせ
     activate ClassSwitchMonitor
@@ -67,7 +69,7 @@ loop
       deactivate ClassTemperatureGetter
 
     == 状態管理 ==
-    ref over ClassStateManager : 温度に応じて状態算出
+    ref over ClassStateManager : 温度に応じて状態算出 \n 状態遷移図を参照
 
     ClassStateManager -> ClassStateManager : 状態遷移
       activate ClassStateManager
